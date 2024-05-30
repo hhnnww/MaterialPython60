@@ -1,14 +1,14 @@
 from pathlib import Path
 
-from class_material_path.model import IMAGE_SUFFIX_LIST
-
 from .class_效果图文件 import ClassEffectImageFile
+from .class_素材文件夹结构 import ClassMaterialStructure
+from .fun_遍历文件夹 import fun_遍历文件夹
+from .model import IMAGE_SUFFIX_LIST
 
 
-class ClassGetAllEffectImage:
-    def __init__(self, effect_folder: Path, web_folder: Path) -> None:
-        self.effect_folder = effect_folder
-        self.web_folder = web_folder
+class ClassGetAllEffectImage(ClassMaterialStructure):
+    def __init__(self, root_path: Path) -> None:
+        super().__init__(root_path)
 
     @property
     def all_effect_image(self) -> list[ClassEffectImageFile]:
@@ -16,16 +16,9 @@ class ClassGetAllEffectImage:
         所有效果图文件对象列表
         列表已按照文件stem中数字排序
         """
-        effect_image_list: list[ClassEffectImageFile] = []
-        for in_file in self.effect_folder.rglob("*"):
-            if in_file.is_file() and in_file.suffix.lower() in IMAGE_SUFFIX_LIST:
-                effect_image_list.append(
-                    ClassEffectImageFile(
-                        effect_image=in_file,
-                        effect_folder=self.effect_folder,
-                        web_folder=self.web_folder,
-                    )
-                )
-
-        effect_image_list.sort(key=lambda k: k.num)
-        return effect_image_list
+        return [
+            ClassEffectImageFile(effect_image=obj, root_path=self.root_path)
+            for obj in fun_遍历文件夹(
+                in_path=self.effect_folder, suffix_list=IMAGE_SUFFIX_LIST
+            )
+        ]

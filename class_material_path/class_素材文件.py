@@ -1,31 +1,35 @@
 from pathlib import Path
+from typing import Optional
 
-from .class_预览图文件 import ClassPreviewImage
+from pydantic import BaseModel
+
+from .class_素材文件夹结构 import ClassMaterialStructure
 from .fun_获取数字 import fun_获取数字
 from .model import IMAGE_SUFFIX_LIST
 
 
-class ClassMaterialFile(ClassPreviewImage):
-    def __init__(
-        self,
-        material_file: Path,
-        material_folder: Path,
-        preview_folder: Path,
-        web_folder: Path,
-    ) -> None:
+class ModelMaterialFile(BaseModel):
+    material_file: str
+    preview_image: Optional[str] = None
+    preview_folder_image: Optional[str] = None
+    web_folder_image: Optional[str] = None
+
+
+class ClassMaterialFile(ClassMaterialStructure):
+    def __init__(self, material_file: Path, root_path: Path) -> None:
         self.material_file = material_file
+        super().__init__(root_path=root_path)
 
-        self.material_folder = material_folder
-        self.preview_folder = preview_folder
-        self.web_folder = web_folder
-
-        ClassPreviewImage.__init__(
-            self,
-            preview_image=self.preview_image,
-            material_folder=self.material_folder,
-            preview_folder=self.preview_folder,
-            web_folder=self.web_folder,
-        )
+    @property
+    def model(self) -> ModelMaterialFile:
+        obj = ModelMaterialFile(material_file=self.material_file.as_posix())
+        if self.preview_image.exists():
+            obj.preview_image = self.preview_image.as_posix()
+        if self.preview_folder_image.exists():
+            obj.preview_folder_image = self.preview_folder_image.as_posix()
+        if self.web_folder_image.exists():
+            obj.web_folder_image = self.web_folder_image.as_posix()
+        return obj
 
     @property
     def preview_image(self) -> Path:
@@ -42,6 +46,24 @@ class ClassMaterialFile(ClassPreviewImage):
         return png_image
 
     @property
+    def preview_folder_image(self) -> Path:
+        """预览图文件夹中的预览图"""
+        return Path(
+            self.preview_image.as_posix().replace(
+                self.material_folder.as_posix(), self.preview_folder.as_posix()
+            )
+        )
+
+    @property
+    def web_folder_image(self) -> Path:
+        """web文件夹中的预览图"""
+        return Path(
+            self.preview_folder_image.as_posix().replace(
+                self.preview_folder.as_posix(), self.web_folder.as_posix()
+            )
+        )
+
+    @property
     def num(self) -> int:
         return fun_获取数字(self.material_file.stem)
 
@@ -50,7 +72,7 @@ class ClassMaterialFile(ClassPreviewImage):
         return self.material_file.suffix.lower().replace(".", "")
 
     @property
-    def format_level(self) -> int:
+    def _format_level(self) -> int:
         match self.format:
             case ["ai", "eps"]:
                 return 0
