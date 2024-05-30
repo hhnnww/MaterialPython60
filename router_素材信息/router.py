@@ -5,7 +5,7 @@ from class_material_path import ModelEffectImage, ModelMaterialFile
 
 from .class_素材信息 import ClassMaterialInfo, ModelMateiralItemFormat
 
-router = APIRouter()
+router = APIRouter(tags=["material"])
 
 
 class ItemIn(BaseModel):

@@ -3,10 +3,12 @@ from uuid import uuid4
 from fastapi import APIRouter
 from pydantic import BaseModel
 
+from . import router_操作列表
 from .class_素材文件夹操作 import ClassMaterialFolderAction
 from .文件后缀列表 import AD_FILE_SUFFIX_LIST
 
-router = APIRouter()
+router = APIRouter(tags=["material"])
+router.include_router(router=router_操作列表.router)
 
 
 class ItemIn(BaseModel):

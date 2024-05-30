@@ -22,8 +22,6 @@ class ClassGetAllMaterialFile(ClassMaterialStructure):
     def sort_materials(self, sort: SORT_MODE = "num") -> list[ClassMaterialFile]:
         ma_list = list(self.all_material_file)
         match sort:
-            case "num":
-                ma_list.sort(key=lambda k: k.num)
             case "suffix":
                 ma_list.sort(key=lambda k: k._format_level)
 

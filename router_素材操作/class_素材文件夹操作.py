@@ -1,3 +1,5 @@
+from typing import Union
+
 from tqdm import tqdm
 
 from class_material_path import ClassMaterialPath
@@ -11,7 +13,9 @@ class ClassMaterialFolderAction(ClassMaterialPath):
         self.action = action
 
     @property
-    def all_material_file_with_action(self) -> tqdm[ClassMaterialFileAction]:
+    def all_material_file_with_action(
+        self,
+    ) -> Union[tqdm, list[ClassMaterialFileAction]]:
         """包含素材文件操作的类的素材文件列表"""
         return tqdm(
             [
