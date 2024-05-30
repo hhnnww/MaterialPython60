@@ -8,10 +8,8 @@ class ClassMatrialFileRename(ClassMaterialFile):
         self,
         material_file: Path,
         root_path: Path,
-        shop_name: str,
     ) -> None:
         super().__init__(material_file, root_path)
-        self.shop_name = shop_name
 
     def fun_素材重命名(self, new_stem: str):
         self.material_file.rename(self.material_file.with_stem(new_stem))

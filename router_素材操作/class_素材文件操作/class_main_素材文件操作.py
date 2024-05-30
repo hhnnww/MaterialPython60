@@ -12,7 +12,5 @@ class ClassMaterialFileAction(
     ClassMoveToNumPath,
     ClassCopyPreviewImageToPreviewPathImage,
 ):
-    def __init__(self, material_file: Path, root_path: Path, shop_name: str) -> None:
-        super().__init__(
-            material_file=material_file, root_path=root_path, shop_name=shop_name
-        )
+    def __init__(self, material_file: Path, root_path: Path) -> None:
+        super().__init__(material_file=material_file, root_path=root_path)

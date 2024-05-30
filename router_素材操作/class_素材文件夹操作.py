@@ -5,10 +5,10 @@ from class_material_path import ClassMaterialPath
 from .class_素材文件操作 import ClassMaterialFileAction
 
 
-class ClassMaterialAction(ClassMaterialPath):
-    def __init__(self, root_path: str, shop_name: str) -> None:
+class ClassMaterialFolderAction(ClassMaterialPath):
+    def __init__(self, root_path: str, action: str) -> None:
         super().__init__(root_path=root_path)
-        self.shop_name = shop_name
+        self.action = action
 
     @property
     def all_material_file_with_action(self) -> tqdm[ClassMaterialFileAction]:
@@ -18,9 +18,9 @@ class ClassMaterialAction(ClassMaterialPath):
                 ClassMaterialFileAction(
                     material_file=obj.material_file,
                     root_path=self.root_path,
-                    shop_name=self.shop_name,
                 )
                 for obj in self.all_material_file
             ],
             ncols=100,
+            desc=f"{self.action}",
         )
