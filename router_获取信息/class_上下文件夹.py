@@ -2,7 +2,7 @@ from pathlib import Path
 
 from pydantic import BaseModel
 
-from MaterialPath.class_文件夹结构 import MaterialFolderStructure
+from MaterialPath.class_文件夹结构 import Class素材文件夹结构
 
 
 class Model路径信息模型(BaseModel):
@@ -16,7 +16,7 @@ class Model上下文件夹模型(BaseModel):
     next_path: Model路径信息模型
 
 
-class Class上下文件夹(MaterialFolderStructure):
+class Class上下文件夹(Class素材文件夹结构):
     def __init__(self, root_folder: str) -> None:
         super().__init__(root_folder)
 

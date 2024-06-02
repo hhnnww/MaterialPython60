@@ -4,14 +4,14 @@ from fastapi import APIRouter
 from fastapi.responses import FileResponse
 from PIL import Image
 
-from MaterialPath.class_素材文件 import MaterialFile
+from MaterialPath.class_素材文件 import Class素材文件
 
 router = APIRouter()
 
 
 @router.get("/image")
 def fun_获取图片(material_file: str, root_path: str):
-    mf = MaterialFile(material_file=Path(material_file), root_folder=root_path)
+    mf = Class素材文件(material_file=Path(material_file), root_folder=root_path)
 
     if mf.web_folder_image.exists() is False:
         if mf.web_folder_image.parent.exists() is not True:

@@ -1,9 +1,9 @@
 from pathlib import Path
 
-from .class_共用功能 import BaseFunction
+from .class_共用功能 import Class公共功能
 
 
-class MateiralFileInfo(BaseFunction):
+class Class素材文件信息(Class公共功能):
     def __init__(self, material_file: Path) -> None:
         self.material_file = material_file
         super().__init__()

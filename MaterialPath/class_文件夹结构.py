@@ -1,22 +1,22 @@
 from pathlib import Path
 
 
-class MaterialFolderStructure:
+class Class素材文件夹结构:
     def __init__(self, root_folder: str) -> None:
         self.root_folder = Path(root_folder)
 
     @property
-    def material_folder(self):
+    def fun_源文件文件夹(self):
         return self.root_folder / self.root_folder.stem
 
     @property
-    def effect_folder(self):
+    def fun_效果图文件夹(self):
         return self.root_folder / "效果图"
 
     @property
-    def preview_folder(self):
+    def fun_预览图文件夹(self):
         return self.root_folder / "预览图"
 
     @property
-    def web_folder(self):
+    def fun_web文件夹(self):
         return self.root_folder / "WEB"

@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from MaterialPath.class_1_素材文件夹 import MaterialFolder
+from MaterialPath.class_1_素材文件夹 import Class素材文件夹
 
 from .class_上下文件夹 import Class上下文件夹
 
@@ -8,21 +8,21 @@ from .class_上下文件夹 import Class上下文件夹
 class Model素材格式信息(BaseModel):
     count: int
     count_title: str
-
     format: str
     format_title: str
+    size_title: str
 
 
-class Class素材文件夹信息(MaterialFolder, Class上下文件夹):
+class Class素材文件夹信息(Class素材文件夹, Class上下文件夹):
     def __init__(self, root_folder: str) -> None:
-        MaterialFolder.__init__(self, root_folder=root_folder)
+        Class素材文件夹.__init__(self, root_folder=root_folder)
         Class上下文件夹.__init__(self, root_folder=root_folder)
 
     @property
     def size_title(self) -> str:
         """235.32 GB"""
         size_level = ["b", "kb", "mb", "gb"]
-        all_size = sum([obj.size for obj in self.all_material_obj])
+        all_size = sum([obj.size for obj in self.fun_所有素材文件])
 
         level = 0
         while all_size > 1000:
@@ -34,9 +34,7 @@ class Class素材文件夹信息(MaterialFolder, Class上下文件夹):
     @property
     def all_format(self) -> str:
         """ai"""
-        return list(set([obj.format for obj in self.all_material_obj_sort_by_format]))[
-            0
-        ]
+        return list(set([obj.format for obj in self.fun_所有素材文件后缀排序]))[0]
 
     @staticmethod
     def _get_format_title(format: str) -> str:
@@ -51,7 +49,7 @@ class Class素材文件夹信息(MaterialFolder, Class上下文件夹):
 
     def _get_count(self, format: str) -> int:
         """根据format输出数字"""
-        return len([obj for obj in self.all_material_obj if obj.format == format])
+        return len([obj for obj in self.fun_所有素材文件 if obj.format == format])
 
     @property
     def comb_one_format(self) -> Model素材格式信息:
@@ -61,4 +59,5 @@ class Class素材文件夹信息(MaterialFolder, Class上下文件夹):
             count_title=f"{self._get_count(format=self.all_format)} 个{self.all_format.upper()} 文件",
             format=self.all_format.upper(),
             format_title=self._get_format_title(format=self.all_format),
+            size_title=self.size_title,
         )

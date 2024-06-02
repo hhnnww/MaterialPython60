@@ -2,7 +2,7 @@ import re
 from pathlib import Path
 
 
-class BaseFunction:
+class Class公共功能:
     @staticmethod
     def fun_获取数字(stem: str) -> int:
         num_list = re.findall(r"\d+", stem)
