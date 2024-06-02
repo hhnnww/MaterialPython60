@@ -5,27 +5,31 @@ from pydantic import BaseModel
 from MaterialPath.class_文件夹结构 import MaterialFolderStructure
 
 
-class ModelPathItem(BaseModel):
+class Model路径信息模型(BaseModel):
     stem: str
     path: str
 
 
-class ModelPrevAndNext(BaseModel):
-    prev_path: ModelPathItem
-    next_path: ModelPathItem
+class Model上下文件夹模型(BaseModel):
+    current_path: Model路径信息模型
+    prev_path: Model路径信息模型
+    next_path: Model路径信息模型
 
 
-class PrevNextPath(MaterialFolderStructure):
+class Class上下文件夹(MaterialFolderStructure):
     def __init__(self, root_folder: str) -> None:
         super().__init__(root_folder)
 
     @property
-    def near_folder_model(self) -> ModelPrevAndNext:
-        return ModelPrevAndNext(
-            prev_path=ModelPathItem(
+    def near_folder_model(self) -> Model上下文件夹模型:
+        return Model上下文件夹模型(
+            current_path=Model路径信息模型(
+                stem=self.root_folder.stem, path=self.root_folder.as_posix()
+            ),
+            prev_path=Model路径信息模型(
                 stem=self.prev_folder.stem, path=self.prev_folder.as_posix()
             ),
-            next_path=ModelPathItem(
+            next_path=Model路径信息模型(
                 stem=self.next_folder.stem, path=self.next_folder.as_posix()
             ),
         )

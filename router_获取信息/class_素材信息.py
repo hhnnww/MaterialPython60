@@ -2,10 +2,10 @@ from pydantic import BaseModel
 
 from MaterialPath.class_1_素材文件夹 import MaterialFolder
 
-from .class_上下文件夹 import PrevNextPath
+from .class_上下文件夹 import Class上下文件夹
 
 
-class ModelFormat(BaseModel):
+class Model素材格式信息(BaseModel):
     count: int
     count_title: str
 
@@ -13,10 +13,10 @@ class ModelFormat(BaseModel):
     format_title: str
 
 
-class MaterialFolderInfo(MaterialFolder, PrevNextPath):
+class Class素材文件夹信息(MaterialFolder, Class上下文件夹):
     def __init__(self, root_folder: str) -> None:
         MaterialFolder.__init__(self, root_folder=root_folder)
-        PrevNextPath.__init__(self, root_folder=root_folder)
+        Class上下文件夹.__init__(self, root_folder=root_folder)
 
     @property
     def size_title(self) -> str:
@@ -54,9 +54,9 @@ class MaterialFolderInfo(MaterialFolder, PrevNextPath):
         return len([obj for obj in self.all_material_obj if obj.format == format])
 
     @property
-    def comb_one_format(self) -> ModelFormat:
+    def comb_one_format(self) -> Model素材格式信息:
         """根据单个format组合对象"""
-        return ModelFormat(
+        return Model素材格式信息(
             count=self._get_count(format=self.all_format),
             count_title=f"{self._get_count(format=self.all_format)} 个{self.all_format.upper()} 文件",
             format=self.all_format.upper(),

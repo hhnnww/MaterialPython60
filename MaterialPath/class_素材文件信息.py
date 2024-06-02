@@ -10,7 +10,18 @@ class MateiralFileInfo(BaseFunction):
 
     @property
     def format(self) -> str:
-        return self.material_file.suffix.lower().replace(".", "")
+        format = self.material_file.suffix.lower().replace(".", "")
+        match format:
+            case "psb" | "psd":
+                return "psd"
+
+            case "eps" | "ai":
+                return "ai"
+
+            case "ppt" | "pptx":
+                return "pptx"
+
+        return format
 
     @property
     def size(self) -> int:
@@ -23,13 +34,13 @@ class MateiralFileInfo(BaseFunction):
     @property
     def format_level(self) -> int:
         match self.format:
-            case ["ai", "eps"]:
+            case "ai":
                 return 0
 
-            case ["psd", "psb"]:
+            case "psd":
                 return 1
 
-            case ["ppt", "pptx"]:
+            case "pptx":
                 return 2
 
         return 9
